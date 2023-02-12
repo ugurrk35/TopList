@@ -36,7 +36,7 @@ namespace TopList.Entity.EntityModels
         public Category Parent { get; set; }
 
         public IList<Category> Children { get; protected set; } = new List<Category>();
-
+        public long? ThumbnailImageId { get; set; }
         public Media ThumbnailImage { get; set; }
     }
 }
