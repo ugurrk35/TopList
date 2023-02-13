@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System.ComponentModel.DataAnnotations;
 using TopList.Entity.Base;
 using TopList.Entity.EntityModels;
+using TopList.ViewModels;
 
 namespace TopList.Data
 {
@@ -15,9 +16,23 @@ namespace TopList.Data
         {
         }
 
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyMedia> CompanyMedias { get; set; }
+
+        public DbSet<Media> Medias { get; set; }
+        public DbSet<CompanyLink> CompanyLinks { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CompanyCategory> CompanyCategories { get; set; }
+
+        public DbSet<EntityType> EntityTypes { get; set; }
+
+        public DbSet<TopList.Entity.Base.Entity> Entities { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             //hepsini ayrı sınıfa taşı
 
             //modelBuilder.ApplyConfiguration(new CategoryMap());
@@ -26,6 +41,50 @@ namespace TopList.Data
             //    e.HasKey(x => x.Id);
             //    e.Property(x => x.EntityId);
             //});
+
+            modelBuilder.Entity<CompanyMedia>( b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd();
+
+
+                b.Property<long>("MediaId");
+
+                b.Property<long>("CompanyId");
+
+                b.HasKey("Id");
+
+                b.HasIndex("MediaId");
+
+                b.HasIndex("CompanyId");
+
+                b.ToTable("Catalog_CompanyMedia");
+            });
+
+
+            modelBuilder.Entity<Company> (b =>
+            {
+          
+
+                //b.HasOne("SimplCommerce.Module.Core.Models.User", "CreatedBy")
+                //    .WithMany()
+                //    .HasForeignKey("CreatedById")
+                //    .OnDelete(DeleteBehavior.Restrict);
+
+                //b.HasOne("SimplCommerce.Module.Core.Models.User", "LatestUpdatedBy")
+                //    .WithMany()
+                //    .HasForeignKey("LatestUpdatedById")
+                //    .OnDelete(DeleteBehavior.Restrict);
+
+
+
+                b.HasOne(b=>b.ThumbnailImage)
+                    .WithMany()
+                    .HasForeignKey(b => b.ThumbnailImageId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
             modelBuilder.Entity<TopList.Entity.Base.Entity>( b =>
             {
                 b.Property<long>("Id")
@@ -52,11 +111,13 @@ namespace TopList.Data
             });
             modelBuilder.Entity<TopList.Entity.Base.Entity>(b =>
             {
-                b.HasOne(x => x.EntityType)
+                b.HasOne(b => b.EntityType)
                     .WithMany()
-                    .HasForeignKey(x => x.EntityTypeId)
+                    .HasForeignKey(b => b.EntityTypeId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+
             modelBuilder.Entity<EntityType>( b =>
             {
                 b.Property<string>("Id")
@@ -96,6 +157,9 @@ namespace TopList.Data
                         RoutingController = "Company"
                     });
             });
+
+
+
             modelBuilder.Entity<CompanyCategory>( b =>
             {
                 b.Property<long>("Id")
@@ -117,16 +181,17 @@ namespace TopList.Data
             });
             modelBuilder.Entity<CompanyCategory> (b =>
             {
-                b.HasOne(x=>x.Category)
+                b.HasOne(b=>b.Category)
                     .WithMany()
-                    .HasForeignKey(x=>x.CategoryId)
+                    .HasForeignKey(b=>b.CategoryId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasOne(x=>x.Company)
-                    .WithMany(x=>x.Categories)
-                    .HasForeignKey(x=>x.CompanyId)
+                b.HasOne(b=>b.Company)
+                    .WithMany(b => b.Categories)
+                    .HasForeignKey(b => b.CompanyId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
             modelBuilder.Entity<Category>( b =>
             {
                 b.Property<long>("Id")
@@ -172,18 +237,50 @@ namespace TopList.Data
             });
             modelBuilder.Entity<Category>( b =>
             {
-                b.HasOne(x=>x.Parent)
-                    .WithMany(x=>x.Children)
-                    .HasForeignKey(x=>x.ParentId)
+                b.HasOne(b=>b.Parent)
+                    .WithMany(b => b.Children)
+                    .HasForeignKey(b => b.ParentId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasOne(x=>x.ThumbnailImage)
+                b.HasOne(b => b.ThumbnailImage)
                     .WithMany()
-                    .HasForeignKey(x=>x.ThumbnailImageId)
+                    .HasForeignKey(b => b.ThumbnailImageId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
-         
+            modelBuilder.Entity<CompanyLink>( b =>
+            {
+                b.HasOne(b=>b.LinkedCompany)
+                    .WithMany(b=>b.LinkedCompanyLinks)
+                    .HasForeignKey(p=>p.LinkedCompanyId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                b.HasOne(b=>b.Company)
+                    .WithMany(b=>b.CompanyLinks)
+                    .HasForeignKey(b=>b.CompanyId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+            modelBuilder.Entity<CompanyLink>(b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd();
+
+
+                b.Property<int>("LinkTypeEnum");
+
+                b.Property<long>("LinkedCompanyId");
+
+                b.Property<long>("CompanyId");
+
+                b.HasKey("Id");
+
+                b.HasIndex("LinkedCompanyId");
+
+                b.HasIndex("CompanyId");
+
+                b.ToTable("Catalog_CompanyLink");
+            });
+
         }
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
@@ -214,5 +311,7 @@ namespace TopList.Data
                 }
             }
         }
+
+        public DbSet<TopList.ViewModels.CategoryListItem> CategoryListItem { get; set; } = default!;
     }
 }

@@ -1,0 +1,98 @@
+﻿@model TopList.ViewModels.CompanysByCategory
+@{
+    ViewData["Title"] = "CategoryDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.CategoryMetaTitle ?? Model.CategoryName;
+}
+@section additionalMeta {
+        <meta name="title" content="@ViewBag.Title" />
+        <meta name="keywords" content="@Model.CategoryMetaKeywords" />
+        <meta name="description" content="@Model.CategoryMetaDescription" />
+}
+
+<h1>CategoryDetail</h1>
+
+<div class="row">
+    <div class="col-md-3 product-list-filters">
+    
+        <form id="productFilter" name="productFilter" method="GET" action="~/@Model.CategorySlug">
+            @if (Model.FilterOption.Categories.Where(x => x.ParentId == Model.CategoryId).Any())
+            {
+                <div id="accordion-category">
+                    <div class="card">
+                    
+                        <div id="collapse-category" class="collapse show" aria-labelledby="cardHeaderCategory" data-parent="#accordion-category">
+                            <div class="card-body">
+                                <ul class="list-unstyled checkbox-list">
+                                    @foreach (var category in Model.FilterOption.Categories.Where(x => x.ParentId == Model.CategoryId))
+                                    {
+                                        <li>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="@category.Slug" name="category" checked="@Model.CurrentSearchOption.GetCategories().Contains(category.Slug)">
+                                                @category.Name
+                                                <small>(@category.Count)</small>
+                                            </label>
+                                            @{
+                                                var children = Model.FilterOption.Categories.Where(x => x.ParentId == category.Id);
+                                            }
+                                            @if (children.Any())
+                                            {
+                                                <ul class="list-unstyled checkbox-list">
+                                                    @foreach (var child in children)
+                                                    {
+                                                        <li>
+                                                            <label class="checkbox">
+                                                                <input type="checkbox" value="@child.Slug" name="category" checked="@Model.CurrentSearchOption.GetCategories().Contains(child.Slug)">
+                                                                @child.Name
+                                                                <small>(@child.Count)</small>
+                                                            </label>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        
+          
+        </form>
+    </div>
+    <div class="col-md-9">
+        <div class="row mb-3">
+            <div class="col-sm-6 category-result">
+                <h2>@Model.CategoryName</h2>
+           
+            </div>
+
+        </div>
+        <div class="row product-list">
+            @foreach (var product in Model.Companys)
+            {
+                <div class="col-xs-6 col-md-4">
+                    <partial name="_ProductThumbnail" model="product" />
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <cs-pager cs-paging-pagesize="@Model.CurrentSearchOption.PageSize"
+                          cs-paging-pagenumber="@Model.CurrentSearchOption.Page"
+                          cs-paging-totalitems="@Model.TotalCompany"
+                          cs-pagenumber-param="page"
+                          asp-basehref="~/@Model.CategorySlug"
+                          asp-all-route-data="@Model.CurrentSearchOption.ToDictionary()"
+                          cs-pager-li-current-class="page-item active"
+                          cs-pager-li-other-class="page-item"
+                          cs-pager-li-non-active-class="page-item disabled"
+                          cs-pager-link-current-class="page-link"
+                          cs-pager-link-other-class="page-link"></cs-pager>
+            </div>
+        </div>
+    </div>
+</div>
+

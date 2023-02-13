@@ -13,6 +13,7 @@ namespace TopList.Entity.EntityModels
 
         [StringLength(450)]
         public string FileName { get; set; }
+        public int MediaTypeEnum { get; set; }
 
         public MediaType MediaType { get; set; }
     }

@@ -11,6 +11,7 @@ namespace TopList.Entity.EntityModels
         public long LinkedCompanyId { get; set; }
 
         public Company LinkedCompany { get; set; }
+        public int LinkTypeEnum { get; set; }
 
         public CompanyLinkType LinkType { get; set; }
     }

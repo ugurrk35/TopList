@@ -1,0 +1,90 @@
+﻿@model TopList.Entity.EntityModels.Category
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slug" class="control-label"></label>
+                <input asp-for="Slug" class="form-control" />
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MetaTitle" class="control-label"></label>
+                <input asp-for="MetaTitle" class="form-control" />
+                <span asp-validation-for="MetaTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MetaKeywords" class="control-label"></label>
+                <input asp-for="MetaKeywords" class="form-control" />
+                <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MetaDescription" class="control-label"></label>
+                <input asp-for="MetaDescription" class="form-control" />
+                <span asp-validation-for="MetaDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisplayOrder" class="control-label"></label>
+                <input asp-for="DisplayOrder" class="form-control" />
+                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IncludeInMenu" /> @Html.DisplayNameFor(model => model.IncludeInMenu)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentId"></select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThumbnailImageId" class="control-label"></label>
+                <select asp-for="ThumbnailImageId" class="form-control" asp-items="ViewBag.ThumbnailImageId"></select>
+                <span asp-validation-for="ThumbnailImageId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

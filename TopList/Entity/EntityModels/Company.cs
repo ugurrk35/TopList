@@ -15,7 +15,7 @@ namespace TopList.Entity.EntityModels
 
         [StringLength(450)]
         public string NormalizedName { get; set; }
-
+        public long ThumbnailImageId { get; set; }
         public Media ThumbnailImage { get; set; }
 
         public IList<CompanyMedia> Medias { get; protected set; } = new List<CompanyMedia>();
