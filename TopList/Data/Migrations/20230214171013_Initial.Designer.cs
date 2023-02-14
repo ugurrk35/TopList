@@ -12,7 +12,7 @@ using TopList.Data;
 namespace TopList.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230213173934_Initial")]
+    [Migration("20230214171013_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace TopList.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -319,9 +319,6 @@ namespace TopList.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IncludeInMenu")
                         .HasColumnType("bit");
 
@@ -351,7 +348,6 @@ namespace TopList.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<long?>("ParentId")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.Property<string>("Slug")
@@ -360,7 +356,6 @@ namespace TopList.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<long?>("ThumbnailImageId")
-                        .IsRequired()
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -533,12 +528,12 @@ namespace TopList.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Caption")
-                        .IsRequired()
+          
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FileName")
-                        .IsRequired()
+         
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
@@ -548,13 +543,13 @@ namespace TopList.Data.Migrations
                     b.Property<int>("MediaType")
                         .HasColumnType("int");
 
-                    b.Property<int>("MediaTypeEnum")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Medias");
                 });
+
+        
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -623,14 +618,14 @@ namespace TopList.Data.Migrations
                     b.HasOne("TopList.Entity.EntityModels.Category", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+                        
 
                     b.HasOne("TopList.Entity.EntityModels.Media", "ThumbnailImage")
                         .WithMany()
                         .HasForeignKey("ThumbnailImageId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+                        
 
                     b.Navigation("Parent");
 

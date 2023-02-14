@@ -23,7 +23,7 @@ namespace TopList.Entity.EntityModels
 
         public string Description { get; set; }
 
-        public int DisplayOrder { get; set; }
+ 
 
         public bool IsPublished { get; set; }
 

@@ -47,6 +47,8 @@ namespace TopList.Services
             return categoriesList.OrderBy(x => x.Name).ToList();
         }
 
+
+
         public async Task Create(Category category)
         {
             using (var transaction = _categoryRepository.BeginTransaction())

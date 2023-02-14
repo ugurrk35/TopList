@@ -199,8 +199,6 @@ namespace TopList.Data
 
                 b.Property<string>("Description");
 
-                b.Property<int>("DisplayOrder");
-
                 b.Property<bool>("IncludeInMenu");
 
                 b.Property<bool>("IsDeleted");
@@ -219,13 +217,13 @@ namespace TopList.Data
                     .IsRequired()
                     .HasMaxLength(450);
 
-                b.Property<long?>("ParentId");
+                b.Property<long?>("ParentId").IsRequired(false);
 
                 b.Property<string>("Slug")
                     .IsRequired()
                     .HasMaxLength(450);
 
-                b.Property<long?>("ThumbnailImageId");
+                b.Property<long?>("ThumbnailImageId").IsRequired(false);
 
                 b.HasKey("Id");
 

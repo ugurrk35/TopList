@@ -177,7 +177,7 @@ namespace TopList.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Slug,MetaTitle,MetaKeywords,MetaDescription,Description,DisplayOrder,IsPublished,IncludeInMenu,IsDeleted,ParentId,ThumbnailImageId,Id")] Category category)
+        public async Task<IActionResult> Create([Bind("Name,Slug,MetaTitle,MetaKeywords,MetaDescription,Description,IsPublished,IncludeInMenu,IsDeleted,ParentId,ThumbnailImageId,Id")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -213,7 +213,7 @@ namespace TopList.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Name,Slug,MetaTitle,MetaKeywords,MetaDescription,Description,DisplayOrder,IsPublished,IncludeInMenu,IsDeleted,ParentId,ThumbnailImageId,Id")] Category category)
+        public async Task<IActionResult> Edit(long id, [Bind("Name,Slug,MetaTitle,MetaKeywords,MetaDescription,Description,IsPublished,IncludeInMenu,IsDeleted,ParentId,ThumbnailImageId,Id")] Category category)
         {
             if (id != category.Id)
             {

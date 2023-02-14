@@ -13,9 +13,9 @@
 <h1>CategoryDetail</h1>
 
 <div class="row">
-    <div class="col-md-3 product-list-filters">
+    <div class="col-md-3 category-list-filters">
     
-        <form id="productFilter" name="productFilter" method="GET" action="~/@Model.CategorySlug">
+        <form id="categoryFilter" name="categoryFilter" method="GET" action="~/@Model.CategorySlug">
             @if (Model.FilterOption.Categories.Where(x => x.ParentId == Model.CategoryId).Any())
             {
                 <div id="accordion-category">
@@ -70,11 +70,11 @@
             </div>
 
         </div>
-        <div class="row product-list">
-            @foreach (var product in Model.Companys)
+        <div class="row category-list">
+            @foreach (var category in Model.Companys)
             {
                 <div class="col-xs-6 col-md-4">
-                    <partial name="_ProductThumbnail" model="product" />
+                    <partial name="_ProductThumbnail" model="category" />
                 </div>
             }
         </div>
